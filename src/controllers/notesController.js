@@ -12,13 +12,14 @@ export const getNoteById = async (req, res, next) => {
 
   if (!note) {
     next(createHttpError(404, "Note not found"));
+    return;
   }
   res.status(200).json(note);
 };
 
 export const createNote = async (req, res) => {
-  const student = await Note.create(req.body);
-  res.status(201).json(student);
+  const note = await Note.create(req.body);
+  res.status(201).json(note);
 };
 
 export const deleteNote = async (req, res, next) => {

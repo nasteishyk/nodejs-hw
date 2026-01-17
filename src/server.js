@@ -8,7 +8,6 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import notesRoutes from "./routes/notesRoutes.js";
 
 const app = express();
-await connectMongoDB();
 const PORT = process.env.PORT ?? 3000;
 
 app.use(logger);
