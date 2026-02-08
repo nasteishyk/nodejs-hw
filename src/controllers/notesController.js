@@ -4,12 +4,16 @@ import createHttpError from "http-errors";
 export const getAllNotes = async (req, res) => {
   // Отримуємо параметри пагінації
   // і задаємо дефолтні значення
-  const { page = 1, perPage = 10 } = req.query;
+  const { page = 1, perPage = 10, tag, search } = req.query;
 
   const skip = (page - 1) * perPage;
 
+  const filter = {};
+  if (tag) filter.tag = tag;
+  if (search) filter.$text = { $search: search };
+
   // Створюємо базовий запит до колекції
-  const notesQuery = Note.find();
+  const notesQuery = Note.find(filter);
 
   // Виконуємо одразу два запити паралельно
   const [totalNotes, notes] = await Promise.all([
