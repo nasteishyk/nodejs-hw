@@ -1,6 +1,22 @@
-import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/time";
+import crypto from 'crypto';
+import { Session } from '../models/session.js';
+import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/time.js';
 
-export const createSession = (res, session) => {
+export const createSession = async (userId) => {
+  const accessToken = crypto.randomBytes(32).toString('hex');
+  const refreshToken = crypto.randomBytes(64).toString('hex');
+
+  const session = await Session.create({
+    userId,
+    accessToken,
+    refreshToken,
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+  });
+
+  return session;
+};
+
+export const setSessionCookies = (res, session) => {
   res.cookie('accessToken', session.accessToken, {
     httpOnly: true,
     secure: true,
