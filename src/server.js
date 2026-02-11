@@ -20,8 +20,8 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/notes', notesRoutes);
+app.use(authRoutes);
+app.use(notesRoutes);
 
 app.use(notFoundHandler);
 app.use(errors());
